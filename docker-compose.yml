@@ -1,7 +1,7 @@
 version: "3.8"
 
 networks:
-  laraenv:
+  webdev:
     driver: bridge
 
 volumes:
@@ -23,7 +23,7 @@ services:
       - "80:80"
       - "443:443"
     networks:
-      - laraenv
+      - webdev
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -36,7 +36,7 @@ services:
       - ./..:/var/www
       - ./php/fpm/8.3/www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
-      - laraenv
+      - webdev
 
   php-cli83:
     build:
@@ -46,7 +46,7 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - laraenv
+      - webdev
 
   # PHP 8.4
   # ==============================================================================
@@ -57,7 +57,7 @@ services:
       - ./..:/var/www
       - ./php/fpm/8.4/www.conf:/usr/local/etc/php-fpm.d/www.conf
     networks:
-      - laraenv
+      - webdev
 
   php-cli84:
     build:
@@ -67,7 +67,7 @@ services:
     stdin_open: true
     tty: true
     networks:
-      - laraenv
+      - webdev
 
   # NODE LTS WITH ANGULAR CLI
   # ==============================================================================
@@ -81,7 +81,7 @@ services:
       - 8001:8888
       - 8002:4200
     networks:
-      - laraenv
+      - webdev
     stdin_open: true
     tty: true
 
@@ -103,7 +103,7 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - laraenv
+      - webdev
 
   # REDIS
   # ==============================================================================
@@ -113,4 +113,4 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - laraenv
+      - webdev
