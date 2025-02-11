@@ -1,5 +1,3 @@
-version: "3.8"
-
 networks:
   webdev:
     driver: bridge
@@ -26,6 +24,48 @@ services:
       - webdev
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  # PHP 7.4
+  # ==============================================================================
+  php-fpm74:
+    build:
+      context: ./php/fpm/7.4
+    volumes:
+      - ./..:/var/www
+      - ./php/fpm/7.4/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    networks:
+      - webdev
+
+  php-cli74:
+    build:
+      context: ./php/cli/7.4
+    volumes:
+      - ./..:/var/www
+    stdin_open: true
+    tty: true
+    networks:
+      - webdev
+
+  # PHP 8.2
+  # ==============================================================================
+  php-fpm82:
+    build:
+      context: ./php/fpm/8.2
+    volumes:
+      - ./..:/var/www
+      - ./php/fpm/8.2/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    networks:
+      - webdev
+
+  php-cli82:
+    build:
+      context: ./php/cli/8.2
+    volumes:
+      - ./..:/var/www
+    stdin_open: true
+    tty: true
+    networks:
+      - webdev
 
   # PHP 8.3
   # ==============================================================================
