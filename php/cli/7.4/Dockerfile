@@ -5,10 +5,10 @@ USER root
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-RUN apk --no-cache --update add git \
+RUN apk --no-cache --update add \
+    git \
     bash \
     bash-completion \
-    php-pecl-redis \
     libmemcached-dev \
     zlib-dev \
     libpng-dev \
@@ -18,8 +18,6 @@ RUN apk --no-cache --update add git \
     libzip-dev \
     zip \
     icu-dev
-
-RUN echo "extension=redis.so" >> /etc/php7.4/php.ini
 
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
@@ -38,9 +36,7 @@ RUN docker-php-ext-install \
     gd \
     zip
 
-RUN install-php-extensions \
-    redis-stable \
-    imagick
+RUN install-php-extensions imagick
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
