@@ -40,6 +40,9 @@ There are 2 containers for each PHP version (Will add it more), one is the FPM f
 To use MySQL pay attention to the variables in the .env, the default user is "default" with password "secret", you can edit those if you wish.  
 To create your databases copy the file `./mysql/8.0/docker-entrypoint-initdb.d/createdb.sql.example` to the same place as `createdb.sql`. Running the container for the first time it will auto-execute this file to create all the databases. Read the example for more info.  
 
+### MariaDB
+Same thing as MySQL.
+
 ### Redis  
 There is no secret with this one, it's all default.  
 The password it's in the .env file.  

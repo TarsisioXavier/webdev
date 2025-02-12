@@ -5,6 +5,8 @@ networks:
 volumes:
   mysql80:
     driver: local
+  mariadb-lts:
+    driver: local
 
 services:
   # NGINX
@@ -142,6 +144,24 @@ services:
       - ./mysql/8.0/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
+    networks:
+      - webdev
+
+  mariadb-lts:
+    build:
+      context: ./mariadb/lts
+      args:
+        - TZ=${TIMEZONE}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MARIADB_DATABASE}
+      - MYSQL_USER=${MARIADB_USER}
+      - MYSQL_PASSWORD=${MARIADB_PASSWORD}
+    volumes:
+      - mariadb-lts:/var/lib/mysql
+      - ./mariadb/lts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
     networks:
       - webdev
 
