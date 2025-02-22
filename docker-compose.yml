@@ -3,7 +3,7 @@ networks:
     driver: bridge
 
 volumes:
-  mysql80:
+  mysql:
     driver: local
   mariadb-lts:
     driver: local
@@ -127,11 +127,11 @@ services:
     stdin_open: true
     tty: true
 
-  # MYSQL 8.0
+  # MYSQL LTS
   # ==============================================================================
-  mysql80:
+  mysql:
     build:
-      context: ./mysql/8.0
+      context: ./mysql/lts
       args:
         - TZ=${TIMEZONE}
     environment:
@@ -140,13 +140,15 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
-      - mysql80:/var/lib/mysql
-      - ./mysql/8.0/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - mysql-lts:/var/lib/mysql
+      - ./mysql/lts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     networks:
       - webdev
 
+  # MariaDB LTS
+  # ==============================================================================
   mariadb-lts:
     build:
       context: ./mariadb/lts

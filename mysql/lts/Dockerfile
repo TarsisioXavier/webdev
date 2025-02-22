@@ -1,4 +1,4 @@
-FROM mysql:8.0
+FROM mysql:lts
 
 ARG TZ=UTC
 ENV TZ ${TZ}
@@ -10,7 +10,3 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 COPY my.cnf /etc/mysql/conf.d/my.cnf
 
 RUN chmod 0444 /etc/mysql/conf.d/my.cnf
-
-# RUN if [ ${MYSQL_MAJOR} = '8.0' ]; then \
-#   echo 'default-authentication-plugin=mysql_native_password' >> /etc/mysql/conf.d/my.cnf; \
-#   fi
