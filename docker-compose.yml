@@ -5,7 +5,9 @@ networks:
 volumes:
   mysql:
     driver: local
-  mariadb-lts:
+  mariadb:
+    driver: local
+  postgres-alpine:
     driver: local
 
 services:
@@ -127,7 +129,7 @@ services:
     stdin_open: true
     tty: true
 
-  # MYSQL LTS
+  # MYSQL
   # ==============================================================================
   mysql:
     build:
@@ -140,16 +142,16 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
-      - mysql-lts:/var/lib/mysql
+      - mysql:/var/lib/mysql
       - ./mysql/lts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
     networks:
       - webdev
 
-  # MariaDB LTS
+  # MariaDB
   # ==============================================================================
-  mariadb-lts:
+  mariadb:
     build:
       context: ./mariadb/lts
       args:
@@ -160,10 +162,26 @@ services:
       - MYSQL_USER=${MARIADB_USER}
       - MYSQL_PASSWORD=${MARIADB_PASSWORD}
     volumes:
-      - mariadb-lts:/var/lib/mysql
+      - mariadb:/var/lib/mysql
       - ./mariadb/lts/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     ports:
       - "3307:3306"
+    networks:
+      - webdev
+
+  # PostgreSQL
+  # ==============================================================================
+  postgres:
+    build: ./postgres/alpine
+    environment:
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-alpine:/var/lib/postgresql/data
+      - ./postgres/alpine/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "${POSTGRES_PORT}:5432"
     networks:
       - webdev
 

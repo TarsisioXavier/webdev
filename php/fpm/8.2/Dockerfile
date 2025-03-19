@@ -17,7 +17,8 @@ RUN apk --no-cache --update add git \
     libxml2-dev \
     libzip-dev \
     zip \
-    icu-dev
+    icu-dev \
+    postgresql-dev
 
 RUN echo "extension=redis.so" >> /etc/php82/php.ini
 
@@ -36,7 +37,9 @@ RUN docker-php-ext-install \
     pdo_mysql \
     intl \
     gd \
-    zip
+    zip \
+    pdo_pgsql \
+    pgsql
 
 RUN install-php-extensions \
     redis-stable \

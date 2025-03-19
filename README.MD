@@ -47,6 +47,9 @@ Same thing as MySQL.
 There is no secret with this one, it's all default.  
 The password it's in the .env file.  
 
+### PostgreSQL
+🚧 WIP.
+
 ### Node  
 I'm currently working on it...  
 It does have a Node container, but Angular it's still quite wacky.  

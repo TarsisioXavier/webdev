@@ -17,7 +17,8 @@ RUN apk --no-cache --update add \
     libxml2-dev \
     libzip-dev \
     zip \
-    icu-dev
+    icu-dev \
+    postgresql-dev
 
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
@@ -34,7 +35,9 @@ RUN docker-php-ext-install \
     pdo_mysql \
     intl \
     gd \
-    zip
+    zip \
+    pdo_pgsql \
+    pgsql
 
 RUN install-php-extensions imagick
 
